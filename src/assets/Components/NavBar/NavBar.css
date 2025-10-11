@@ -1,0 +1,60 @@
+nav {
+  height: 85vh;
+  width: 220px;
+  background: linear-gradient(180deg, #fdd835, #ffeb3b);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 20px;
+  align-items: center;
+}
+
+/* Lista del menú */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Enlaces */
+li {
+  width: 100%;
+}
+
+li a {
+  display: block;
+  text-align: center;
+  padding: 12px 0;
+  margin: 0 15px;
+  background: #fff8dc;
+  color: #0a285f;
+  font-weight: bold;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease-in-out;
+  font-family: "Comic Sans MS", sans-serif;
+}
+
+li a:hover {
+  background: #0a285f;
+  color: #fff8dc;
+  transform: scale(1.05);
+}
+
+/* Para que el contenido principal no quede debajo del nav */
+main {
+  margin-left: 220px;
+  padding: 20px;
+}
+img {
+  max-width: 100%;
+}
+
+.hero_nav {
+  height: 20%;
+  display: flex;
+}
