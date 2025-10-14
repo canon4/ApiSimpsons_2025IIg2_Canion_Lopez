@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
+
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 
