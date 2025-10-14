@@ -15,7 +15,7 @@ import SplashScreen from "./Components/SplashScreen/SplashScreen";
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   return (
-    <BrowserRouter>
+    <HashRouter>
       {showSplash && <SplashScreen onFinish={() => setShowSplash(false)} />}
       {/*  NavBar persiste en TODAS las rutas */}
       <NavBar />
@@ -31,6 +31,6 @@ export default function App() {
       </main>
       {/*Footer también persiste */}
       <Footer />
-    </BrowserRouter>
+    </HashRouter>
   );
 }
