@@ -1,35 +1,34 @@
+
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// COMPONENTES (ojo: carpeta en minúsculas)
-import NavBar from "./Components/NavBar/NavBar";
-import Footer from "./Components/Footer/Footer";
+import NavBar from "./components/NavBar/NavBar";
+import Footer from "./components/Footer/Footer";
 
-// PÁGINAS
 import Home from "./pages/Home/Home";
-import Characters from "./pages/PersonajesPage/PersonajesPage";
-import CharacterDetail from "./pages/PersonajeDetail/PersonajeDetail";
-import Locations from "./pages/LocacionesPage/LocacionesPage"; // si el folder es "LocacionesPage"
-import Episodes from "./pages/EpisodiosPage/EpisodiosPage";
+import PersonajesPage from "./pages/PersonajesPage/PersonajesPage";
+import PersonajeDetail from "./pages/PersonajeDetail/PersonajeDetail";
+import LocacionesPage from "./pages/LocacionesPage/LocacionesPage";
+import EpisodiosPage from "./pages/EpisodiosPage/EpisodiosPage";
 
-import "./index.css";
-
-function App() {
+export default function App() {
   return (
     <BrowserRouter>
+      {/* 🚩 NavBar persiste en TODAS las rutas */}
       <NavBar />
-      <main style={{ minHeight: "70vh" }}>
+
+      <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/personajes" element={<Characters />} />
-          <Route path="/personaje/:id" element={<CharacterDetail />} />
-          <Route path="/lugares" element={<Locations />} />
-          <Route path="/episodios" element={<Episodes />} />
+          <Route path="/personajes" element={<PersonajesPage />} />
+          <Route path="/personaje/:id" element={<PersonajeDetail />} />
+          <Route path="/lugares" element={<LocacionesPage />} />
+          <Route path="/episodios" element={<EpisodiosPage />} />
         </Routes>
       </main>
+
+      {/* 🚩 Footer también persiste */}
       <Footer />
     </BrowserRouter>
   );
 }
-
-export default App;

@@ -1,0 +1,162 @@
+/* 
+  Clases que usa este CSS (añádelas en tu JSX):
+  - contenedor principal:     className="detail"
+  - imagen:                   className="detail__img"
+  - título (h2):              className="detail__title"
+  - contenedor de badges:     className="detail__badges"
+  - cada badge:               className="badge"
+  - lista de frases:          className="detail__quotes"
+  - botón volver (Link):      className="detail__back"
+*/
+
+:root{
+  --yellow:#FDD835;
+  --yellow2:#FFEB3B;
+  --blue:#0A285F;
+  --ink:#0F172A;
+  --muted:#64748B;
+  --card:#FFFFFF;
+  --paper:#FFF8DC;
+  --border:#E2E8F0;
+  --radius:18px;
+  --shadow:0 16px 40px rgba(10,40,95,.12);
+}
+
+/* ===== LAYOUT PRINCIPAL ===== */
+.detail{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 22px;
+  background: linear-gradient(180deg, #fff, #fffef5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  animation: detailIn .45s ease-out both;
+}
+
+@keyframes detailIn{
+  from{ opacity:.0; transform: translateY(10px) scale(.98); }
+  to  { opacity:1;  transform: translateY(0) scale(1); }
+}
+
+/* ===== COLUMNA IZQUIERDA (IMAGEN) ===== */
+.detail__img{
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 3 / 4;            /* mantiene proporción agradable */
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 4px);
+  border: 3px solid #ffcc00;
+  background: #fff;
+  box-shadow: 0 14px 28px rgba(0,0,0,.12);
+  transform: rotate(-.3deg);
+}
+
+.detail > img{ /* por si aún no agregas la clase a la img */
+  width: 100%;
+}
+
+/* ===== COLUMNA DERECHA (TEXTO) ===== */
+.detail__title{
+  margin: 2px 0 6px;
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--blue);
+  font-weight: 900;
+  letter-spacing: .2px;
+  text-shadow: 1px 1px 0 #ffef9a;
+}
+
+/* Badges de ocupación/estado */
+.detail__badges{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 6px 0 14px;
+}
+.badge{
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--paper);
+  border: 2px solid #ffcc00;
+  color: var(--blue);
+  font-weight: 800;
+  box-shadow: 0 8px 16px rgba(0,0,0,.06);
+}
+.badge[data-variant="status"]{
+  background: #e3f2fd;
+  border-color: #00bcd4;
+  color: #083a63;
+}
+
+/* Párrafos informativos */
+.detail p{
+  margin: 8px 0;
+  color: #334155;
+  line-height: 1.55;
+}
+.detail strong{ color: var(--ink); }
+
+/* ===== LISTA DE FRASES ===== */
+.detail__quotes{
+  margin: 14px 0 0;
+  padding: 14px 16px 8px 16px;
+  background: #f8fbff;
+  border: 2px dashed #99e9f2;
+  border-radius: 16px;
+  position: relative;
+}
+.detail__quotes::before{
+  content: "“";
+  position: absolute;
+  top: -12px; left: 12px;
+  font-size: 44px;
+  color: #99e9f2;
+  font-weight: 900;
+}
+.detail__quotes li{
+  margin: 0 0 8px 0;
+  padding-left: 10px;
+  list-style: "—  ";
+  color: #0b2d6d;
+}
+
+/* ===== BOTÓN VOLVER ===== */
+.detail__back{
+  display: inline-block;
+  margin-top: 16px;
+  background: var(--paper);
+  color: var(--blue);
+  border: 2px solid #ffcc00;
+  padding: 10px 14px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 800;
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+}
+.detail__back:hover{
+  background:#fff;
+  transform: translateY(-1px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px){
+  .detail{
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .detail__img{
+    margin: 0 auto;
+    transform: none;
+  }
+  .detail__badges{
+    justify-content: center;
+  }
+  .detail__quotes{
+    text-align: left;
+  }
+}

@@ -1,9 +1,224 @@
-.personajes-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+:root{
+  --yellow:#FDD835;
+  --yellow2:#FFEB3B;
+  --blue:#0A285F;
+  --ink:#0F172A;
+  --border:#E2E8F0;
+  --card:#FFFFFF;
+  --radius:16px;
+  --shadow:0 10px 28px rgba(10,40,95,.08);
+}
+
+.personajes-page{
   padding: 20px;
-  width: 80vw;
-  overflow: auto;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.personajes-header{
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.personajes-title{
+  margin: 6px 0 6px;
+  color: var(--blue);
+  font-size: clamp(1.6rem, 2.8vw, 2rem);
+  font-weight: 900;
+  letter-spacing: .2px;
+  text-shadow: 1px 1px 0 #ffef9a;
+}
+
+/* ===== Search ===== */
+.personajes-search{
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.personajes-search__input{
+  width: min(360px, 92vw);
+  padding: 10px 40px 10px 38px;
+  border-radius: 12px;
+  border: 2px solid #ffd84d;
+  background: #fffef5;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  box-shadow: var(--shadow);
+  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.personajes-search__input:hover{ background:#fff; }
+.personajes-search__input:focus{
+  border-color:#ffcc00;
+  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+}
+.personajes-search::before{
+  content:"";
+  position:absolute; left:12px; width:18px; height:18px;
+  border:2px solid #0a285f; border-radius:50%; opacity:.8;
+}
+.personajes-search::after{
+  content:"";
+  position:absolute; left:28px; top:20px;
+  width:10px; height:2px; background:#0a285f; transform: rotate(45deg);
+  border-radius:2px; opacity:.8;
+}
+.personajes-search__clear{
+  position: absolute; right: 92px;
+  background:#fff; border:2px solid #e2e8f0;
+  border-radius: 8px; padding: 6px 10px; line-height: 1;
+  cursor: pointer; font-weight: 800; color:#475569;
+  transition: background .15s ease, transform .1s ease;
+}
+.personajes-search__clear:hover{ background:#f8fafc; transform: translateY(-1px); }
+.personajes-search__submit{
+  background:#0a285f; color:#fff8dc; border:2px solid #0a285f;
+  border-radius:10px; padding: 9px 12px; cursor:pointer; font-weight:800;
+  transition: transform .1s ease, background .15s ease;
+}
+.personajes-search__submit:hover{ background:#163a8a; transform: translateY(-1px); }
+
+/* Contador */
+.personajes-counter{
+  margin: 8px 2px 12px;
+  color:#475569; font-weight:600;
+}
+
+/* Grid */
+.cards-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.cards-grid > *{ animation: cardIn .35s ease-out both; }
+.cards-grid > *:nth-child(2){ animation-delay: .03s; }
+.cards-grid > *:nth-child(3){ animation-delay: .06s; }
+.cards-grid > *:nth-child(4){ animation-delay: .09s; }
+@keyframes cardIn{
+  from{ opacity:0; transform: translateY(8px) scale(.98); }
+  to  { opacity:1; transform: translateY(0) scale(1); }
+}
+
+/* ======= OVERRIDES DE LA TARJETA (sin tocar CardPersonaje.jsx) ======= */
+/* Da aire a la imagen y centra todo el contenido */
+.personajes-page .card{
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.personajes-page .card-img{
+  display:block;
+  width:100%;
+  height: 280px;                /* altura estable */
+  object-fit: contain;          /* no recorta */
+  background: #fffef5;
+  padding: 16px;                /* 👈 AIRE */
+  border-bottom: 2px solid #ffcc00;
+}
+.personajes-page .card-body{
+  padding: 16px 18px 18px;      /* 👈 AIRE */
+  text-align: center;           /* 👈 CENTRA textos y botones */
+}
+.personajes-page .card-body .name{
+  margin: 0 0 8px;
+  color: var(--blue);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+.personajes-page .card-body p{ margin: 6px 0; }
+
+/* Botón y link centrados + sin emojis (reemplazo accesible) */
+.personajes-page .card-body button,
+.personajes-page .card-body .ver-mas-link{
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+/* Quita el texto original (con emoji) y coloca uno limpio */
+.personajes-page .card-body button{
+  font-size: 0;                 /* oculta emoji/texto original */
+  background: var(--yellow);
+  border: 2px solid var(--blue);
+  cursor: pointer;
+  transition: transform .1s ease, background .15s ease, box-shadow .15s ease;
+}
+.personajes-page .card-body button::after{
+  content: "Decir frase";       /* texto limpio */
+  font-size: .95rem;
+  color: var(--blue);
+}
+.personajes-page .card-body button:hover{
+  background:#ffe067; transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+}
+
+/* Link "Ver más" sin emoji */
+.personajes-page .card-body .ver-mas-link{
+  font-size: 0;                 /* oculta emoji/texto original */
+  background: #FFF8DC;
+  border: 2px solid #ffcc00;
+  color: var(--blue);
+}
+.personajes-page .card-body .ver-mas-link::after{
+  content: "Ver más";
+  font-size: .95rem;
+  color: var(--blue);
+}
+.personajes-page .card-body .ver-mas-link:hover{
+  background:#fff; transform: translateY(-1px);
+}
+
+/* Cita/frase centrada y con estilo */
+.personajes-page .card-body .frase{
+  margin-top: 12px;
+  text-align: center;
+  color: #0b2d6d;
+  background: #f1f8ff;
+  border: 2px dashed #b3e5fc;
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-style: italic;
+}
+
+/* Mensajes */
+.personajes-empty,
+.personajes-error{
+  padding: 16px;
+  background: #fff0f0;
+  border: 1px solid #ffc9c9;
+  border-radius: 12px;
+  color: #9b1c1c;
+  font-weight: 600;
+}
+
+/* Paginación */
+.personajes-pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+.page-indicator{
+  color:#475569;
+  font-weight:600;
+  background:#fff8dc;
+  border:2px solid #ffcc00;
+  padding:6px 10px;
+  border-radius:999px;
+}
+
+/* Responsive */
+@media (max-width: 600px){
+  .personajes-page{ padding:16px; }
+  .cards-grid{ gap:12px; }
+  .page-indicator{ font-size:.9rem; }
+  .personajes-search__clear{ right: 88px; }
 }

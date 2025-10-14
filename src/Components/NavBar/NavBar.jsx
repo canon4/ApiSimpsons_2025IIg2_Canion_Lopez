@@ -1,15 +1,26 @@
 import React from "react";
 import "./NavBar.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
+  const cx = ({ isActive }) => "nav__link" + (isActive ? " is-active" : "");
+
   return (
-    <nav>
-      <ul>
-        <li><Link to="/">Inicio</Link></li>
-        <li><Link to="/personajes">Personajes</Link></li>
-        <li><Link to="/lugares">Lugares</Link></li>
-        <li><Link to="/episodios">Episodios</Link></li>
+    <nav className="nav">
+      {/* Branding superior */}
+      <div className="nav__brand">
+        <span className="nav__dot" />
+        <div className="nav__title">
+          <strong>Simpsons</strong>
+          <span>API</span>
+        </div>
+      </div>
+
+      <ul className="nav__list">
+        <li><NavLink to="/" end className={cx}>Inicio</NavLink></li>
+        <li><NavLink to="/personajes" className={cx}>Personajes</NavLink></li>
+        <li><NavLink to="/lugares" className={cx}>Lugares</NavLink></li>
+        <li><NavLink to="/episodios" className={cx}>Episodios</NavLink></li>
       </ul>
     </nav>
   );

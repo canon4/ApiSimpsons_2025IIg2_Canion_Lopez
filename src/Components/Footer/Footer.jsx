@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./Footer.css";
 
 export default function Footer() {
@@ -6,15 +7,36 @@ export default function Footer() {
 
   return (
     <footer className="site-footer">
+      <div className="site-footer__wave" />
+
       <div className="site-footer__inner">
-        <div className="footer-brand">
-          <span className="dot"></span>
-          <h4>ApiSimpsons</h4>
+        {/* Brand */}
+        <div className="f-col brand">
+          <div className="brand__row">
+            <span className="brand__dot" />
+            <h4>Simpsons <span>API</span></h4>
+          </div>
+          <p className="brand__subtitle">
+            Proyecto académico — React + Router + Fetch
+          </p>
         </div>
 
-        <div className="footer-text">
-          <p>© {year} – Ingeniería de Sistemas | Universidad de la Amazonia</p>
-          <p className="subtext">Proyecto académico realizado con React + Router + Fetch API</p>
+        {/* Navegación rápida */}
+        <nav className="f-col quick">
+          <h5>Explora</h5>
+          <ul>
+            <li><Link to="/">Inicio</Link></li>
+            <li><Link to="/personajes">Personajes</Link></li>
+            <li><Link to="/lugares">Lugares</Link></li>
+            <li><Link to="/episodios">Episodios</Link></li>
+          </ul>
+        </nav>
+
+        {/* Créditos */}
+        <div className="f-col credits">
+          <h5>Créditos</h5>
+          <p>© {year} – Ingeniería de Sistemas</p>
+          <p>Universidad de la Amazonia</p>
         </div>
       </div>
     </footer>

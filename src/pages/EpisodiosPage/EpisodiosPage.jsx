@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { api } from "../../services/api";
 import { useFetch } from "../../hooks/useFetch";
-import Loader from "../../Components/Loader/Loader";
-import Pagination from "../../Components/Pagination/Pagination";
+import Loader from "../../components/Loader/Loader";
+import Pagination from "../../components/Pagination/Pagination";
+import "./EpisodiosPage.css";
 
 export default function EpisodiosPage() {
   const [page, setPage] = useState(1);
@@ -19,59 +20,70 @@ export default function EpisodiosPage() {
   const hasNext = page < pages;
 
   if (loading) return <Loader />;
-  if (error) return <p>Error: {error}</p>;
-  if (!episodios.length) return (
-    <div style={{ padding: 20 }}>
-      <h1>📺 Episodios de Los Simpsons</h1>
-      <Filter season={season} onChange={(v) => { setPage(1); setSeason(v); }} />
-      <p>No hay episodios.</p>
-    </div>
-  );
+  if (error) return <p className="episodes">Error: {error}</p>;
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>📺 Episodios de Los Simpsons</h1>
+    <section className="episodes">
+      <h1 className="episodes__title">Episodios de Los Simpsons</h1>
 
-      <Filter season={season} onChange={(v) => { setPage(1); setSeason(v); }} />
-
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-        gap: "1rem",
-        marginTop: 20
-      }}>
-        {episodios.map((ep) => (
-          <div key={ep.id} style={{
-            border: "2px solid #00bcd4",
-            borderRadius: 12,
-            background: "#e3f2fd",
-            padding: "1rem",
-            fontFamily: "'Comic Sans MS', sans-serif",
-          }}>
-            <h3 style={{ color: "#0d47a1" }}>{ep.name}</h3>
-            <p><strong>Temporada:</strong> {ep.season ?? "?"}</p>
-            <p><strong>Episodio:</strong> {ep.episode ?? "?"}</p>
-            <p><strong>Emitido:</strong> {ep.air_date || "Sin fecha"}</p>
-          </div>
-        ))}
-      </div>
-
-      <Pagination
-        mode="simple"
-        currentPage={page}
-        onPrev={() => hasPrev && setPage((x) => x - 1)}
-        onNext={() => hasNext && setPage((x) => x + 1)}
-        disablePrev={!hasPrev}
-        disableNext={!hasNext}
+      <Filter
+        season={season}
+        onChange={(v) => {
+          setPage(1);
+          setSeason(v);
+        }}
       />
-    </div>
+
+      {episodios.length === 0 ? (
+        <p className="episodes__empty">No hay episodios.</p>
+      ) : (
+        <>
+          <div className="episodes__grid">
+            {episodios.map((ep) => (
+              <article key={ep.id} className="episode-card">
+                <h3 className="episode-card__title">{ep.name}</h3>
+
+                <div>
+                  <span className="episode-chip" data-variant="season">
+                    Temporada {ep.season ?? "?"}
+                  </span>
+                  <span className="episode-chip" data-variant="number">
+                    Episodio {ep.episode ?? "?"}
+                  </span>
+                </div>
+
+                <div className="episode-air">
+                  Emitido: {ep.air_date || "Sin fecha"}
+                </div>
+
+                {/* opcional, info adicional */}
+                <div className="episode-card__footer">
+                  <span>ID: {ep.id}</span>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="episodes__pagination">
+            <Pagination
+              mode="simple"
+              currentPage={page}
+              onPrev={() => hasPrev && setPage((x) => x - 1)}
+              onNext={() => hasNext && setPage((x) => x + 1)}
+              disablePrev={!hasPrev}
+              disableNext={!hasNext}
+            />
+          </div>
+        </>
+      )}
+    </section>
   );
 }
 
 function Filter({ season, onChange }) {
   return (
-    <div style={{ margin: "10px 0" }}>
-      <label htmlFor="season-select">Filtrar por temporada: </label>
+    <div className="episodes__filter">
+      <label htmlFor="season-select">Filtrar por temporada:</label>
       <select
         id="season-select"
         value={season}
