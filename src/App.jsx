@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// COMPONENTES
+// COMPONENTES (ojo: carpeta en minúsculas)
 import NavBar from "./Components/NavBar/NavBar";
 import Footer from "./Components/Footer/Footer";
 
@@ -9,7 +9,7 @@ import Footer from "./Components/Footer/Footer";
 import Home from "./pages/Home/Home";
 import Characters from "./pages/PersonajesPage/PersonajesPage";
 import CharacterDetail from "./pages/PersonajeDetail/PersonajeDetail";
-import Locations from "./pages/LocacionesPage/LocacionesPage";
+import Locations from "./pages/LocacionesPage/LocacionesPage"; // si el folder es "LocacionesPage"
 import Episodes from "./pages/EpisodiosPage/EpisodiosPage";
 
 import "./index.css";

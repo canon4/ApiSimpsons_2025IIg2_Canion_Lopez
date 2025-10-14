@@ -1,24 +1,66 @@
-header {
-  background-color: yellow;
-  height: 15vh;
-  width: 100vw;
-
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#logo {
-  width: 250px;
-  height: 100%;
-}
-
-#logo img {
-  object-fit: contain;
+.hero {
   width: 100%;
-  height: 100%;
+  min-height: 220px;
+  background: linear-gradient(180deg, #fdd835 0%, #ffeb3b 70%);
+  position: relative;
+  overflow: hidden;
+  border-bottom: 4px solid #ffcc00;
 }
-#titulo {
-  font-size: 2.5rem;
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255,255,255,0.25) 2px, transparent 2px);
+  background-size: 24px 24px;
+  animation: floatDots 8s linear infinite;
+  opacity: .6;
+}
+
+.hero__content {
+  position: relative;
+  padding: 28px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  animation: slideIn .6s ease-out both;
+}
+
+.hero__title {
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: clamp(24px, 4.2vw, 48px);
+  margin: 0 0 6px;
+  color: #0a285f;
+  text-shadow: 1px 2px 0 #fff8dc;
+}
+
+.hero__subtitle {
+  margin: 0;
+  color: #163a8a;
+  font-weight: 600;
+}
+
+.hero__chips {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background: #fff8dc;
+  border: 2px solid #0a285f;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-weight: 700;
+  color: #0a285f;
+}
+
+/* Animaciones */
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatDots {
+  from { background-position: 0 0; }
+  to   { background-position: 0 24px; }
 }

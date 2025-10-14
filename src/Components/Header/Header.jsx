@@ -1,17 +1,21 @@
 import React from "react";
 import "./Header.css";
 
-const Header = () => {
+export default function Header() {
   return (
-    <header>
-      <div id="logo">
-        <img src="/Logo-familia-simp.webp" alt="logo" />
-      </div>
-      <div id="titulo">
-        <h1>Los Simpsons</h1>
+    <header className="hero">
+      <div className="hero__content">
+        <h1 className="hero__title">The Simpsons API Explorer</h1>
+        <p className="hero__subtitle">
+          Explora personajes, lugares y episodios con React + Router + Fetch
+        </p>
+        <div className="hero__chips">
+          <span className="chip">React</span>
+          <span className="chip">Vite</span>
+          <span className="chip">API pública</span>
+          <span className="chip">Responsive</span>
+        </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

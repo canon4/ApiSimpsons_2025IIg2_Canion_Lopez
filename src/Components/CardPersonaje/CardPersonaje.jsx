@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./CardPersonaje.css";
 
-const CardPersonaje = ({ data }) => {
+const CardPersonaje = ({ personaje }) => {
   const [fraseActual, setFraseActual] = useState("");
   const [frases, setFrases] = useState([]);
 
   useEffect(() => {
-    setFrases(data.phrases || []);
-  }, [data]);
+    setFrases(personaje?.phrases || []);
+  }, [personaje]);
 
   const mostrarFrase = () => {
     if (!frases || frases.length === 0) {
@@ -22,27 +22,21 @@ const CardPersonaje = ({ data }) => {
   return (
     <div className="card">
       <img
-        src={`https://cdn.thesimpsonsapi.com/500${data.portrait_path}`}
-        alt={data.name}
+        src={`https://cdn.thesimpsonsapi.com/500${personaje.portrait_path}`}
+        alt={personaje.name}
         className="card-img"
       />
-
       <div className="card-body">
-        <h2 className="name">{data.name}</h2>
-        <p>
-          <strong>Edad:</strong> {data.age}
-        </p>
-        <p>
-          <strong>Fecha de nacimiento:</strong> {data.birthdate}
-        </p>
+        <h2 className="name">{personaje.name}</h2>
+        <p><strong>Edad:</strong> {personaje.age ?? "—"}</p>
+        <p><strong>Fecha de nacimiento:</strong> {personaje.birthdate ?? "—"}</p>
 
         <button onClick={mostrarFrase}>🎙️ Decir frase</button>
         {fraseActual && <p className="frase">“{fraseActual}”</p>}
 
-        {/* 👇 Enlace hacia la página de detalle del personaje */}
         <Link
-          to={`/personaje/${data.id}`}
-          state={{ personaje: data }}
+          to={`/personaje/${personaje.id}`}
+          state={{ personaje }}
           className="ver-mas-link"
         >
           🔍 Ver más
