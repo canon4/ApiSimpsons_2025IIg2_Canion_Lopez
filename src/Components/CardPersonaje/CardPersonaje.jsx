@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./CardPersonaje.css";
 
 const CardPersonaje = ({ data }) => {
@@ -25,6 +26,7 @@ const CardPersonaje = ({ data }) => {
         alt={data.name}
         className="card-img"
       />
+
       <div className="card-body">
         <h2 className="name">{data.name}</h2>
         <p>
@@ -33,8 +35,18 @@ const CardPersonaje = ({ data }) => {
         <p>
           <strong>Fecha de nacimiento:</strong> {data.birthdate}
         </p>
+
         <button onClick={mostrarFrase}>🎙️ Decir frase</button>
         {fraseActual && <p className="frase">“{fraseActual}”</p>}
+
+        {/* 👇 Enlace hacia la página de detalle del personaje */}
+        <Link
+          to={`/personaje/${data.id}`}
+          state={{ personaje: data }}
+          className="ver-mas-link"
+        >
+          🔍 Ver más
+        </Link>
       </div>
     </div>
   );
