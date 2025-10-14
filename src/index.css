@@ -1,53 +1,61 @@
 /* 🎨 ==== Variables de tema (paleta Simpsons + diseño limpio) ==== */
-:root{
-  --yellow:#FDD835;
-  --yellow-2:#FFEB3B;
-  --blue:#0A285F;
-  --ink:#0F172A;
-  --muted:#64748B;
-  --bg:#F8FAFC;
-  --card:#FFFFFF;
-  --border:#E2E8F0;
-  --radius:14px;
-  --shadow:0 8px 24px rgba(2,6,23,.08);
+:root {
+  --yellow: #fdd835;
+  --yellow-2: #ffeb3b;
+  --blue: #0a285f;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --radius: 14px;
+  --shadow: 0 8px 24px rgba(2, 6, 23, 0.08);
 }
 
 /* ==== Reset y base global ==== */
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-html,body,#root{
-  height:100%;
+html,
+body,
+#root {
+  height: 100%;
 }
 
-body{
-  margin:0;
+body {
+  margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
-  color:var(--ink);
-  background:var(--bg);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  line-height:1.45;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.45;
 }
 
 /* Contenedor general para mantener consistencia */
-.container{
-  max-width:1100px;
-  margin:0 auto;
-  padding:20px clamp(16px,2vw,24px);
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px clamp(16px, 2vw, 24px);
 }
 
 /* ==== Animaciones globales ==== */
 
 /* fade general para transiciones entre páginas */
-.fade-in{
-  animation:fadeIn .35s ease-out both;
+.fade-in {
+  animation: fadeIn 0.35s ease-out both;
 }
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(6px)}
-  to{opacity:1;transform:translateY(0)}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* aparición escalonada de las tarjetas */
@@ -59,17 +67,38 @@ body{
 }
 
 /* Escalonado progresivo */
-.cards-grid > *:nth-child(1) { animation-delay: 0.00s; }
-.cards-grid > *:nth-child(2) { animation-delay: 0.06s; }
-.cards-grid > *:nth-child(3) { animation-delay: 0.12s; }
-.cards-grid > *:nth-child(4) { animation-delay: 0.18s; }
-.cards-grid > *:nth-child(5) { animation-delay: 0.24s; }
-.cards-grid > *:nth-child(6) { animation-delay: 0.30s; }
+.cards-grid > *:nth-child(1) {
+  animation-delay: 0s;
+}
+.cards-grid > *:nth-child(2) {
+  animation-delay: 0.06s;
+}
+.cards-grid > *:nth-child(3) {
+  animation-delay: 0.12s;
+}
+.cards-grid > *:nth-child(4) {
+  animation-delay: 0.18s;
+}
+.cards-grid > *:nth-child(5) {
+  animation-delay: 0.24s;
+}
+.cards-grid > *:nth-child(6) {
+  animation-delay: 0.3s;
+}
 
 @keyframes cardIn {
-  0%   { opacity: 0; transform: translateY(10px) scale(0.98); }
-  60%  { opacity: 1; transform: translateY(-2px) scale(1.01); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-2px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* ==== Imágenes y medios ==== */
@@ -90,40 +119,43 @@ body{
 }
 
 /* ==== Estilo base para cards (por si no está en cada componente) ==== */
-.card{
+.card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
-  transition: transform .15s ease, box-shadow .15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
-.card:hover{
+.card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(0,0,0,.12);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
 /* ==== Botones estándar ==== */
-button{
+button {
   background: var(--yellow-2);
   border: 2px solid var(--blue);
   color: var(--blue);
   border-radius: 10px;
   padding: 8px 14px;
   font-weight: 700;
-  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
-  cursor:pointer;
+  transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
 }
-button:hover{
+button:hover {
   background: var(--yellow);
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(0,0,0,.08);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
 /* ==== Otros ajustes generales ==== */
-a{
-  color:var(--blue);
-  text-decoration:none;
+a {
+  color: var(--blue);
+  text-decoration: none;
 }
-a:hover{
-  text-decoration:underline;
+a:hover {
+  text-decoration: underline;
 }
+
+
+

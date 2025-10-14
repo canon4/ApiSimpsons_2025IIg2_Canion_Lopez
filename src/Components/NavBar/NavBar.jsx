@@ -9,18 +9,30 @@ const NavBar = () => {
     <nav className="nav">
       {/* Branding superior */}
       <div className="nav__brand">
-        <span className="nav__dot" />
-        <div className="nav__title">
-          <strong>Simpsons</strong>
-          <span>API</span>
-        </div>
+        <img src="/The_Simpsons_yellow_logo.svg" alt="logo" />
       </div>
 
       <ul className="nav__list">
-        <li><NavLink to="/" end className={cx}>Inicio</NavLink></li>
-        <li><NavLink to="/personajes" className={cx}>Personajes</NavLink></li>
-        <li><NavLink to="/lugares" className={cx}>Lugares</NavLink></li>
-        <li><NavLink to="/episodios" className={cx}>Episodios</NavLink></li>
+        <li>
+          <NavLink to="/" end className={cx}>
+            Inicio
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/personajes" className={cx}>
+            Personajes
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/lugares" className={cx}>
+            Lugares
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/episodios" className={cx}>
+            Episodios
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );

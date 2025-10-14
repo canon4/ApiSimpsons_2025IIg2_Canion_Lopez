@@ -1,0 +1,63 @@
+#splash-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* cubre todo mientras carga */
+  overflow: hidden;
+
+  /* Fondo base: color del universo Simpsons */
+  background-color: #fdd835;
+
+  /* Animación del logo que se abre */
+  animation: reveal 4s forwards ease-in-out;
+}
+
+/* Capa con el logo que hace de máscara */
+.mask-overlay {
+  width: 100%;
+  height: 100%;
+
+  /* Fondo del “mundo de los Simpson” (lo que se verá dentro del logo) */
+  background-image: url("/public/fondo.png");
+  background-size: cover;
+  background-position: center;
+
+  /* El logo funciona como máscara transparente */
+  mask-image: url("/homero.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100px;
+
+  /* Necesario para compatibilidad con WebKit (Chrome, Safari) */
+  -webkit-mask-image: url("/homero.svg");
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: 100px;
+
+  animation: mask-reveal 3s forwards ease-in-out;
+}
+
+/* Expande la máscara desde el logo hacia afuera */
+@keyframes mask-reveal {
+  0% {
+    mask-size: 50px;
+    -webkit-mask-size: 100px;
+  }
+  100% {
+    mask-size: 1000vh;
+    -webkit-mask-size: 1000vh;
+  }
+}
+
+/* Desvanece el fondo completo al finalizar */
+@keyframes reveal {
+  0% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}

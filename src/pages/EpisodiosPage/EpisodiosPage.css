@@ -1,34 +1,34 @@
-:root{
-  --blue:#0A285F;
-  --cyan:#00BCD4;
-  --ink:#0F172A;
-  --muted:#64748B;
-  --paper:#E3F2FD;      /* azul muy claro */
-  --paper2:#F1F8FF;     /* aún más claro */
-  --border:#B3E5FC;
-  --radius:16px;
-  --shadow:0 12px 28px rgba(10,40,95,.10);
+:root {
+  --blue: #0a285f;
+  --cyan: #00bcd4;
+  --ink: #0f172a;
+  --muted: #64748b;
+  --paper: #e3f2fd; /* azul muy claro */
+  --paper2: #f1f8ff; /* aún más claro */
+  --border: #b3e5fc;
+  --radius: 16px;
+  --shadow: 0 12px 28px rgba(10, 40, 95, 0.1);
 }
 
 /* ===== Contenedor general ===== */
-.episodes{
+.episodes {
   padding: 20px;
   max-width: 1100px;
   margin: 0 auto;
 }
 
 /* ===== Título ===== */
-.episodes__title{
+.episodes__title {
   margin: 6px 0 12px;
   color: var(--blue);
   font-size: clamp(1.6rem, 2.8vw, 2rem);
   font-weight: 900;
-  letter-spacing: .2px;
+  letter-spacing: 0.2px;
   text-shadow: 1px 1px 0 #b3e5fc;
 }
 
 /* ===== Filtro (temporada) ===== */
-.episodes__filter{
+.episodes__filter {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -37,10 +37,10 @@
   color: var(--ink);
   font-weight: 600;
 }
-.episodes__filter label{
+.episodes__filter label {
   color: var(--blue);
 }
-.episodes__filter select{
+.episodes__filter select {
   appearance: none;
   background: var(--paper2);
   border: 2px solid var(--border);
@@ -50,51 +50,65 @@
   color: var(--blue);
   outline: none;
   box-shadow: var(--shadow);
-  transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background 0.15s ease;
 }
-.episodes__filter select:hover{
+.episodes__filter select:hover {
   background: #fff;
 }
-.episodes__filter select:focus{
+.episodes__filter select:focus {
   border-color: var(--cyan);
-  box-shadow: 0 10px 26px rgba(0,0,0,.12);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
 }
 
 /* ===== Grid ===== */
-.episodes__grid{
+.episodes__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 16px;
 }
-.episodes__grid > *{
-  animation: cardIn .35s ease-out both;
+.episodes__grid > * {
+  animation: cardIn 0.35s ease-out both;
 }
-.episodes__grid > *:nth-child(2){ animation-delay: .03s; }
-.episodes__grid > *:nth-child(3){ animation-delay: .06s; }
-.episodes__grid > *:nth-child(4){ animation-delay: .09s; }
-@keyframes cardIn{
-  from{ opacity: 0; transform: translateY(8px) scale(.98); }
-  to  { opacity: 1; transform: translateY(0) scale(1); }
+.episodes__grid > *:nth-child(2) {
+  animation-delay: 0.03s;
+}
+.episodes__grid > *:nth-child(3) {
+  animation-delay: 0.06s;
+}
+.episodes__grid > *:nth-child(4) {
+  animation-delay: 0.09s;
+}
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* ===== Tarjeta de episodio ===== */
-.episode-card{
+.episode-card {
   background: var(--paper);
   border: 2px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
-  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    border-color 0.18s ease, background 0.18s ease;
 }
-.episode-card:hover{
+.episode-card:hover {
   transform: translateY(-3px);
   background: #eaf6ff;
   border-color: var(--cyan);
-  box-shadow: 0 16px 36px rgba(0,0,0,.14);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
 /* Título del episodio */
-.episode-card__title{
+.episode-card__title {
   margin: 0 0 8px 0;
   color: var(--blue);
   font-weight: 900;
@@ -102,7 +116,7 @@
 }
 
 /* Chips de meta: temporada / episodio */
-.episode-chip{
+.episode-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -113,31 +127,35 @@
   color: var(--blue);
   font-weight: 800;
   border: 2px solid var(--border);
-  box-shadow: 0 6px 12px rgba(0,0,0,.06);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
 }
-.episode-chip[data-variant="season"]::before{
+.episode-chip[data-variant="season"]::before {
   content: "T";
   display: inline-grid;
   place-items: center;
-  width: 18px; height: 18px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: var(--cyan);
   color: white;
-  font-size: .8rem; font-weight: 900;
+  font-size: 0.8rem;
+  font-weight: 900;
 }
-.episode-chip[data-variant="number"]::before{
+.episode-chip[data-variant="number"]::before {
   content: "#";
   display: inline-grid;
   place-items: center;
-  width: 18px; height: 18px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: #0288d1;
   color: white;
-  font-size: .8rem; font-weight: 900;
+  font-size: 0.8rem;
+  font-weight: 900;
 }
 
 /* Fecha de emisión */
-.episode-air{
+.episode-air {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -148,9 +166,10 @@
   border-radius: 12px;
   font-weight: 700;
 }
-.episode-air::before{
+.episode-air::before {
   content: "";
-  width: 16px; height: 16px;
+  width: 16px;
+  height: 16px;
   border-radius: 3px;
   border: 2px solid var(--cyan);
   position: relative;
@@ -158,7 +177,7 @@
 }
 
 /* Pie de tarjeta (opcional) */
-.episode-card__footer{
+.episode-card__footer {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
@@ -168,7 +187,7 @@
 }
 
 /* ===== Paginación (envoltorio) ===== */
-.episodes__pagination{
+.episodes__pagination {
   margin-top: 18px;
   display: flex;
   align-items: center;
@@ -177,9 +196,38 @@
 }
 
 /* ===== Responsive ===== */
-@media (max-width: 600px){
-  .episodes{ padding: 16px; }
-  .episodes__grid{ gap: 12px; }
-  .episode-card{ padding: 14px; }
-  .episode-card__title{ font-size: 1rem; }
+@media (max-width: 600px) {
+  .episodes {
+    padding: 16px;
+  }
+  .episodes__grid {
+    gap: 12px;
+  }
+  .episode-card {
+    padding: 14px;
+  }
+  .episode-card__title {
+    font-size: 1rem;
+  }
+}
+
+.episode-card__image {
+  width: 100%;
+  height: 160px;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.episode-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.episode-card:hover .episode-card__image img {
+  transform: scale(1.05);
 }

@@ -4,15 +4,14 @@ import Pagination from "../../components/Pagination/Pagination";
 import "./EpisodiosPage.css";
 
 export default function EpisodiosPage() {
-  const [page, setPage] = useState(1); // página actual (cliente)
-  const [season, setSeason] = useState(""); // temporada seleccionada (string)
-  const [allEpisodes, setAllEpisodes] = useState([]); // todos los episodios traídos
+  const [page, setPage] = useState(1);
+  const [season, setSeason] = useState("");
+  const [allEpisodes, setAllEpisodes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const ITEMS_PER_PAGE = 20; // número de items por página en la paginación cliente
+  const ITEMS_PER_PAGE = 20;
 
-  // 1) Cargar TODOS los episodios al montar
   useEffect(() => {
     let cancelled = false;
     const controller = new AbortController();
@@ -22,18 +21,14 @@ export default function EpisodiosPage() {
         setLoading(true);
         setError(null);
 
-        // 1a: pedir la primera página para conocer cuántas páginas hay
         const firstRes = await fetch(
           "https://thesimpsonsapi.com/api/episodes?page=1",
-          {
-            signal: controller.signal,
-          }
+          { signal: controller.signal }
         );
         if (!firstRes.ok) throw new Error("Error al obtener episodios (p1)");
         const firstData = await firstRes.json();
         const totalPages = firstData.pages ?? 1;
 
-        // 1b: construir promesas para las páginas 2..totalPages
         const promises = [];
         for (let p = 2; p <= totalPages; p++) {
           promises.push(
@@ -46,18 +41,14 @@ export default function EpisodiosPage() {
           );
         }
 
-        // 1c: esperar las restantes en paralelo
         const rest = await Promise.all(promises);
 
-        // 1d: concatenar todos los resultados (firstData.results + rest[].results)
         const combined = [
           ...(firstData.results ?? []),
           ...rest.flatMap((d) => d.results ?? []),
         ];
 
-        if (!cancelled) {
-          setAllEpisodes(combined);
-        }
+        if (!cancelled) setAllEpisodes(combined);
       } catch (err) {
         if (!cancelled) {
           if (err.name === "AbortError") return;
@@ -77,19 +68,15 @@ export default function EpisodiosPage() {
     };
   }, []);
 
-  // cuando cambias de temporada, reiniciamos la página a 1
   useEffect(() => {
     setPage(1);
   }, [season]);
 
-  // 2) Filtrar y paginar en cliente (memoizado)
   const { filteredEpisodes, totalPages } = useMemo(() => {
-    // filtrar por temporada si aplica
     const filtered = season
       ? allEpisodes.filter((ep) => String(ep.season) === String(season))
-      : allEpisodes.slice(); // copia
+      : allEpisodes.slice();
 
-    // calcular paginación cliente
     const totalPagesLocal = Math.max(
       1,
       Math.ceil(filtered.length / ITEMS_PER_PAGE)
@@ -110,36 +97,46 @@ export default function EpisodiosPage() {
     <section className="episodes">
       <h1 className="episodes__title">Lista de Episodios</h1>
 
-      <Filter
-        season={season}
-        onChange={(v) => {
-          setSeason(v);
-        }}
-      />
+      <Filter season={season} onChange={(v) => setSeason(v)} />
 
       {filteredEpisodes.length === 0 ? (
         <p className="episodes__empty">No hay episodios para esta selección.</p>
       ) : (
         <>
           <div className="episodes__grid">
-            {filteredEpisodes.map((ep) => (
-              <article key={ep.id} className="episode-card">
-                <h3 className="episode-card__title">{ep.name}</h3>
+            {filteredEpisodes.map((ep) => {
+              // Generar la URL de imagen
+              const imageUrl = `https://cdn.thesimpsonsapi.com/200/episode/${ep.id}.webp`;
+              return (
+                <article key={ep.id} className="episode-card">
+                  <div className="episode-card__image">
+                    <img
+                      src={imageUrl}
+                      alt={ep.name}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png";
+                      }}
+                    />
+                  </div>
+                  <h3 className="episode-card__title">{ep.name}</h3>
 
-                <div>
-                  <span className="episode-chip" data-variant="season">
-                    Temporada {ep.season ?? "?"}
-                  </span>
-                  <span className="episode-chip" data-variant="number">
-                    Episodio {ep.episode_number ?? ep.episode ?? "?"}
-                  </span>
-                </div>
+                  <div>
+                    <span className="episode-chip" data-variant="season">
+                      Temporada {ep.season ?? "?"}
+                    </span>
+                    <span className="episode-chip" data-variant="number">
+                      Episodio {ep.episode_number ?? ep.episode ?? "?"}
+                    </span>
+                  </div>
 
-                <div className="episode-air">
-                  Emitido: {ep.airdate || ep.air_date || "Sin fecha"}
-                </div>
-              </article>
-            ))}
+                  <div className="episode-air">
+                    Emitido: {ep.airdate || ep.air_date || "Sin fecha"}
+                  </div>
+                </article>
+              );
+            })}
           </div>
 
           <div className="episodes__pagination">

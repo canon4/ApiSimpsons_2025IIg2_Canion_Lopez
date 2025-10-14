@@ -5,61 +5,6 @@ import Loader from "../../components/Loader/Loader";
 import Pagination from "../../components/Pagination/Pagination";
 import "./LocacionesPage.css";
 
-/* Enriquecimiento inline (sin archivos extra) */
-const LOCATIONS_EXTRA = {
-  "742 Evergreen Terrace": {
-    type: "Residencia",
-    description: "Casa de la familia Simpson desde la primera temporada."
-  },
-  "Moe's Tavern": {
-    type: "Bar",
-    description: "La taberna de Moe Szyslak; sitio habitual de Homero."
-  },
-  "Springfield Nuclear Power Plant": {
-    type: "Planta nuclear",
-    description: "Lugar de trabajo de Homero; propiedad del Sr. Burns."
-  },
-  "Springfield Elementary School": {
-    type: "Escuela",
-    description: "Escuela de Bart y Lisa; a cargo de Seymour Skinner."
-  },
-  "Kwik-E-Mart": {
-    type: "Tienda",
-    description: "Minisúper atendido por Apu Nahasapeemapetilon."
-  },
-  "Springfield Police Station": {
-    type: "Estación de policía",
-    description: "Sede del Jefe Wiggum y su equipo."
-  },
-  "Springfield General Hospital": {
-    type: "Hospital",
-    description: "Centro médico principal de la ciudad."
-  },
-  "Krusty Burger": {
-    type: "Restaurante",
-    description: "Cadena de comida rápida de Krusty el Payaso."
-  },
-  "Springfield Town Hall": {
-    type: "Ayuntamiento",
-    description: "Oficinas del alcalde Quimby y administración local."
-  },
-  "Springfield Cemetery": {
-    type: "Cementerio",
-    description: "Camposanto con varias referencias a la serie."
-  }
-};
-
-function enrich(loc) {
-  const extra = LOCATIONS_EXTRA[loc.name];
-  return extra
-    ? {
-        ...loc,
-        type: loc.type || extra.type,
-        description: loc.description || extra.description,
-      }
-    : loc;
-}
-
 export default function LocacionesPage() {
   const [page, setPage] = useState(1);
   const [q, setQ] = useState("");
@@ -69,23 +14,25 @@ export default function LocacionesPage() {
     [page]
   );
 
-  const items = data?.items ?? [];
+  const items = data?.items || data?.results || [];
   const pages = data?.pages ?? 1;
 
-  // Enriquecer + filtrar por nombre (solo página actual)
+  // 🔍 Filtro por nombre
   const { list, totalInPage } = useMemo(() => {
-    const enriched = items.map(enrich);
     const filtered = q.trim()
-      ? enriched.filter((l) =>
-          String(l.name || "").toLowerCase().includes(q.trim().toLowerCase())
+      ? items.filter((l) =>
+          String(l.name || "")
+            .toLowerCase()
+            .includes(q.trim().toLowerCase())
         )
-      : enriched;
-    return { list: filtered, totalInPage: enriched.length };
+      : items;
+    return { list: filtered, totalInPage: items.length };
   }, [items, q]);
 
   if (loading) return <Loader />;
   if (error) return <p className="locations__error">Error: {error}</p>;
-  if (!items.length) return <p className="locations__empty">No hay locaciones.</p>;
+  if (!items.length)
+    return <p className="locations__empty">No hay locaciones.</p>;
 
   const hasPrev = page > 1;
   const hasNext = page < pages;
@@ -105,41 +52,45 @@ export default function LocacionesPage() {
       </div>
 
       <p className="locations__counter">
-        Mostrando <strong>{list.length}</strong> de <strong>{totalInPage}</strong> ·
-        Página <strong>{page}</strong> de <strong>{pages}</strong>
+        Mostrando <strong>{list.length}</strong> de{" "}
+        <strong>{totalInPage}</strong> · Página <strong>{page}</strong> de{" "}
+        <strong>{pages}</strong>
       </p>
 
+      {/* === GRID DE LOCACIONES === */}
       <div className="locations__grid">
         {list.map((l) => {
-          const typeText = String(l.type ?? "").trim();
-          const descText = String(l.description ?? "").trim();
-          const hasType = !!typeText;
-          const hasDesc = !!descText;
+          const imageUrl = l.image_path
+            ? `https://cdn.thesimpsonsapi.com/500${l.image_path}`
+            : "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
 
           return (
-            <article
-              key={l.id}
-              className={
-                "location-card" + (!hasType && !hasDesc ? " location-card--compact" : "")
-              }
-            >
-              <div className="location-card__header">
-                <div className="location-card__icon" aria-hidden />
+            <article key={l.id} className="location-card">
+              <img
+                src={imageUrl}
+                alt={l.name}
+                className="location-card__image"
+                loading="lazy"
+              />
+              <div className="location-card__body">
                 <h3 className="location-card__title">{l.name}</h3>
+                {l.town && (
+                  <p className="location-card__info">
+                    <strong>Pueblo:</strong> {l.town}
+                  </p>
+                )}
+                {l.use && (
+                  <p className="location-card__info">
+                    <strong>Uso:</strong> {l.use}
+                  </p>
+                )}
               </div>
-
-              {hasType && (
-                <span className="location-chip" title="Tipo de lugar">
-                  {typeText}
-                </span>
-              )}
-
-              {hasDesc && <p className="location-card__desc">{descText}</p>}
             </article>
           );
         })}
       </div>
 
+      {/* === PAGINACIÓN === */}
       <div className="locations__pagination">
         <Pagination
           mode="simple"
@@ -153,11 +104,6 @@ export default function LocacionesPage() {
           Página {page} de {pages}
         </span>
       </div>
-
-      <p className="locations__note">
-        *Los campos “tipo” y “descripción” dependen de la información disponible en la API pública. 
-        Se agregan datos complementarios para lugares icónicos.*
-      </p>
     </section>
   );
 }
