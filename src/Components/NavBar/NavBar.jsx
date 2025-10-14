@@ -9,7 +9,7 @@ const NavBar = () => {
     <nav className="nav">
       {/* Branding superior */}
       <div className="nav__brand">
-        <img src="/The_Simpsons_yellow_logo.svg" alt="logo" />
+        <img src="./The_Simpsons_yellow_logo.svg" alt="logo" />
       </div>
 
       <ul className="nav__list">
