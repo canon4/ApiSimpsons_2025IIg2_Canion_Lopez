@@ -1,71 +1,57 @@
-import React, { useState } from "react";
-import { api } from "../../services/api";
-import { useFetch } from "../../hooks/useFetch";
-import CardPersonaje from "../../components/CardPersonaje/CardPersonaje";
-import Pagination from "../../components/Pagination/Pagination";
-import Loader from "../../components/Loader/Loader";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-export default function PersonajesPage() {
-  const [page, setPage] = useState(1);
-  const [name, setName] = useState("");
+/**
+ * Hook de obtención de datos con:
+ * - loading, error, data
+ * - refetch()
+ * - AbortController automático
+ *
+ * @param {(signal: AbortSignal) => Promise<any>} asyncFn
+ * @param {any[]} deps dependencias para volver a ejecutar
+ */
+export function useFetch(asyncFn, deps = []) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const refetchTick = useRef(0);
+  const controllerRef = useRef(null);
+  const mountedRef = useRef(true);
 
-  const { data, loading, error } = useFetch(
-    (signal) => api.characters.list({ page, name, signal }),
-    [page, name]
-  );
+  const run = useCallback(async () => {
+    controllerRef.current?.abort();
+    const controller = new AbortController();
+    controllerRef.current = controller;
 
-  const personajes = data?.items ?? [];
-  const pages = data?.pages ?? 1;
+    setLoading(true);
+    setError(null);
 
-  if (loading) return <Loader />;
-  if (error) return <p>Error: {error}</p>;
-  if (!personajes.length) return (
-    <div style={{ padding: 20 }}>
-      <h2>Personajes</h2>
-      <SearchBox name={name} onChange={(v) => { setPage(1); setName(v); }} />
-      <p>No hay personajes.</p>
-    </div>
-  );
+    try {
+      const result = await asyncFn(controller.signal);
+      if (!mountedRef.current || controller.signal.aborted) return;
+      setData(result);
+    } catch (err) {
+      if (err?.name === "AbortError") return;
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      if (mountedRef.current && !controller.signal.aborted) {
+        setLoading(false);
+      }
+    }
+  }, deps); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const hasPrev = page > 1;
-  const hasNext = page < pages;
+  useEffect(() => {
+    mountedRef.current = true;
+    run();
+    return () => {
+      mountedRef.current = false;
+      controllerRef.current?.abort();
+    };
+  }, [run, refetchTick.current]);
 
-  return (
-    <div className="personajes-page" style={{ padding: 20 }}>
-      <h2>Personajes</h2>
+  const refetch = useCallback(() => {
+    refetchTick.current += 1;
+    run();
+  }, [run]);
 
-      <SearchBox name={name} onChange={(v) => { setPage(1); setName(v); }} />
-
-      <div className="cards-grid" style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-        gap: "1rem",
-        marginTop: 12
-      }}>
-        {personajes.map((p) => <CardPersonaje key={p.id} personaje={p} />)}
-      </div>
-
-      <Pagination
-        mode="simple"
-        currentPage={page}
-        onPrev={() => hasPrev && setPage((x) => x - 1)}
-        onNext={() => hasNext && setPage((x) => x + 1)}
-        disablePrev={!hasPrev}
-        disableNext={!hasNext}
-      />
-    </div>
-  );
-}
-
-function SearchBox({ name, onChange }) {
-  return (
-    <div style={{ margin: "10px 0" }}>
-      <input
-        placeholder="Buscar por nombre..."
-        value={name}
-        onChange={(e) => onChange(e.target.value)}
-        style={{ padding: 8, borderRadius: 8, border: "1px solid #ccc", width: 280 }}
-      />
-    </div>
-  );
+  return { data, loading, error, refetch };
 }

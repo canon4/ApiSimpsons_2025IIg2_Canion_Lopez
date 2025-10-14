@@ -3,13 +3,19 @@ import "./Footer.css";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
-        <p>© {year} ApiSimpsons – Ingeniería de Sistemas</p>
-        <p className="site-footer__link">
-          Proyecto académico | React + Router + Fetch
-        </p>
+        <div className="footer-brand">
+          <span className="dot"></span>
+          <h4>ApiSimpsons</h4>
+        </div>
+
+        <div className="footer-text">
+          <p>© {year} – Ingeniería de Sistemas | Universidad de la Amazonia</p>
+          <p className="subtext">Proyecto académico realizado con React + Router + Fetch API</p>
+        </div>
       </div>
     </footer>
   );

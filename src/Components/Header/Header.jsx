@@ -4,10 +4,13 @@ import "./Header.css";
 export default function Header() {
   return (
     <header className="hero">
+      <div className="hero__overlay" />
       <div className="hero__content">
-        <h1 className="hero__title">The Simpsons API Explorer</h1>
+        <h1 className="hero__title">
+          <span className="highlight">The Simpsons</span> API Explorer
+        </h1>
         <p className="hero__subtitle">
-          Explora personajes, lugares y episodios con React + Router + Fetch
+          Explora personajes, lugares y episodios — hechos con React + Router + Fetch.
         </p>
         <div className="hero__chips">
           <span className="chip">React</span>
