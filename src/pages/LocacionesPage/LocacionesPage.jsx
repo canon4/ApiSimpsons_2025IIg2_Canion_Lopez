@@ -3,6 +3,7 @@ import { api } from "../../services/api";
 import { useFetch } from "../../hooks/useFetch";
 import Loader from "../../components/Loader/Loader";
 import Pagination from "../../components/Pagination/Pagination";
+import CardLocacion from "../../Components/CardLocacion/CardLocacion";
 import "./LocacionesPage.css";
 
 export default function LocacionesPage() {
@@ -59,35 +60,9 @@ export default function LocacionesPage() {
 
       {/* === GRID DE LOCACIONES === */}
       <div className="locations__grid">
-        {list.map((l) => {
-          const imageUrl = l.image_path
-            ? `https://cdn.thesimpsonsapi.com/500${l.image_path}`
-            : "https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg";
-
-          return (
-            <article key={l.id} className="location-card">
-              <img
-                src={imageUrl}
-                alt={l.name}
-                className="location-card__image"
-                loading="lazy"
-              />
-              <div className="location-card__body">
-                <h3 className="location-card__title">{l.name}</h3>
-                {l.town && (
-                  <p className="location-card__info">
-                    <strong>Pueblo:</strong> {l.town}
-                  </p>
-                )}
-                {l.use && (
-                  <p className="location-card__info">
-                    <strong>Uso:</strong> {l.use}
-                  </p>
-                )}
-              </div>
-            </article>
-          );
-        })}
+        {list.map((l) => (
+          <CardLocacion key={l.id} locacion={l} />
+        ))}
       </div>
 
       {/* === PAGINACIÓN === */}

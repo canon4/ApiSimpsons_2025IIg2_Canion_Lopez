@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Loader from "../../components/Loader/Loader";
 import Pagination from "../../components/Pagination/Pagination";
+import CardEpisodio from "../../Components/CardEpisodio/CardEpisodio";
 import "./EpisodiosPage.css";
 
 export default function EpisodiosPage() {
@@ -104,39 +105,9 @@ export default function EpisodiosPage() {
       ) : (
         <>
           <div className="episodes__grid">
-            {filteredEpisodes.map((ep) => {
-              // Generar la URL de imagen
-              const imageUrl = `https://cdn.thesimpsonsapi.com/200/episode/${ep.id}.webp`;
-              return (
-                <article key={ep.id} className="episode-card">
-                  <div className="episode-card__image">
-                    <img
-                      src={imageUrl}
-                      alt={ep.name}
-                      loading="lazy"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png";
-                      }}
-                    />
-                  </div>
-                  <h3 className="episode-card__title">{ep.name}</h3>
-
-                  <div>
-                    <span className="episode-chip" data-variant="season">
-                      Temporada {ep.season ?? "?"}
-                    </span>
-                    <span className="episode-chip" data-variant="number">
-                      Episodio {ep.episode_number ?? ep.episode ?? "?"}
-                    </span>
-                  </div>
-
-                  <div className="episode-air">
-                    Emitido: {ep.airdate || ep.air_date || "Sin fecha"}
-                  </div>
-                </article>
-              );
-            })}
+            {filteredEpisodes.map((ep) => (
+              <CardEpisodio key={ep.id} episodio={ep} />
+            ))}
           </div>
 
           <div className="episodes__pagination">
