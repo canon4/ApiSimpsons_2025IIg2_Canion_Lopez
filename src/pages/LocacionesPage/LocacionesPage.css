@@ -6,30 +6,47 @@
   --border: #e2e8f0;
   --paper: #fff8dc;
   --radius: 16px;
-  --shadow: 0 12px 28px rgba(10, 40, 95, 0.1);
+  --shadow: 0 10px 24px rgba(10, 40, 95, 0.08);
+  --shadow-hover: 0 16px 36px rgba(10, 40, 95, 0.15);
 }
 
+/* === CONTENEDOR PRINCIPAL === */
 .locations {
   padding: 20px;
   max-width: 1100px;
   margin: 0 auto;
+  animation: fadeIn 0.5s ease both;
 }
 
-/* Header: Título + búsqueda */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === HEADER === */
 .locations__header {
   display: flex;
-  gap: 12px;
   flex-wrap: wrap;
-  align-items: flex-end;
   justify-content: space-between;
+  align-items: flex-end;
+  gap: 12px;
+  margin-bottom: 10px;
 }
+
 .locations__title {
-  margin: 6px 0 4px;
+  margin: 6px 0;
   color: var(--blue);
-  font-size: clamp(1.6rem, 2.8vw, 2rem);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
   font-weight: 900;
-  text-shadow: 1px 1px 0 #ffef9a;
+  text-shadow: 1px 1px 0 var(--yellow2);
 }
+
 .locations__search-input {
   width: min(340px, 92vw);
   padding: 10px 12px;
@@ -40,33 +57,37 @@
   color: var(--ink);
   outline: none;
   box-shadow: var(--shadow);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-.locations__search-input:focus {
-  border-color: #ffcc00;
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s;
 }
 
-/* Contador */
+.locations__search-input:focus {
+  border-color: #ffcc00;
+  box-shadow: var(--shadow-hover);
+  transform: scale(1.02);
+}
+
+/* === CONTADOR === */
 .locations__counter {
   margin: 8px 2px 12px;
   color: #475569;
   font-weight: 600;
 }
 
-/* Grid de tarjetas */
+/* === GRID DE TARJETAS === */
 .locations__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+  gap: 18px;
 }
+
 .locations__grid > * {
   animation: cardIn 0.35s ease-out both;
 }
+
 @keyframes cardIn {
   from {
     opacity: 0;
-    transform: translateY(8px) scale(0.98);
+    transform: translateY(10px) scale(0.97);
   }
   to {
     opacity: 1;
@@ -74,50 +95,63 @@
   }
 }
 
-/* Tarjeta */
+/* === TARJETA === */
 .location-card {
   background: var(--paper);
   border: 2px solid #ffcc00;
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
-  transition: transform 0.18s ease, box-shadow 0.18s ease,
-    border-color 0.18s ease, background 0.18s ease;
-}
-.location-card--compact {
-  padding-block: 12px;
-}
-.location-card:hover {
-  transform: translateY(-3px);
-  background: #fffce8;
-  border-color: #ffd84d;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
+  transition: all 0.22s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Header de tarjeta */
+.location-card:hover {
+  transform: translateY(-4px);
+  background: #fffce8;
+  border-color: #ffd84d;
+  box-shadow: var(--shadow-hover);
+}
+
+.location-card:hover::before {
+  opacity: 0.25;
+}
+
+.location-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, #ffef9a 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* === HEADER DE TARJETA === */
 .location-card__header {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
+
 .location-card__icon {
   width: 38px;
   height: 38px;
-  border-radius: 999px;
-  background: #0a285f;
+  border-radius: 50%;
+  background: var(--blue);
   box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
   position: relative;
   flex: none;
 }
-/* Dibujito simple con CSS (sin emoji) */
+
 .location-card__icon::after {
   content: "";
   position: absolute;
   inset: 8px;
-  border-radius: 999px;
-  background: #fff8dc;
-  border: 2px solid #ffcc00;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--yellow);
 }
 
 .location-card__title {
@@ -127,20 +161,25 @@
   font-size: 1.05rem;
 }
 
-/* Chip tipo */
+/* === CHIP DE TIPO === */
 .location-chip {
   display: inline-block;
   margin: 6px 0 8px;
-  padding: 6px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   background: #e3f2fd;
-  color: #0a285f;
+  color: var(--blue);
   font-weight: 800;
   border: 2px solid #00bcd4;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease;
 }
 
-/* Descripción */
+.location-chip:hover {
+  transform: scale(1.05);
+}
+
+/* === DESCRIPCIÓN === */
 .location-card__desc {
   margin: 0;
   color: #334155;
@@ -148,31 +187,49 @@
   font-size: 0.96rem;
 }
 
-/* Paginación */
+/* === IMAGEN EN TARJETA === */
+.location-card__image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #ffcc00;
+  margin-bottom: 10px;
+  background: #fffef0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* === PAGINACIÓN === */
 .locations__pagination {
-  margin-top: 18px;
+  margin-top: 22px;
   display: flex;
-  gap: 12px;
+  gap: 14px;
   align-items: center;
   justify-content: center;
 }
+
 .locations__page-indicator {
   color: #475569;
   font-weight: 600;
-  background: #fff8dc;
+  background: var(--paper);
   border: 2px solid #ffcc00;
-  padding: 6px 10px;
+  padding: 8px 14px;
   border-radius: 999px;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-/* Nota de fuente */
+.locations__page-indicator:hover {
+  background: #fffcdf;
+  transform: scale(1.05);
+}
+
+/* === MENSAJES Y NOTAS === */
 .locations__note {
   margin-top: 10px;
   color: #64748b;
   font-size: 0.92rem;
 }
 
-/* Mensajes */
 .locations__error,
 .locations__empty {
   padding: 20px;
@@ -183,7 +240,7 @@
   font-weight: 600;
 }
 
-/* Responsive */
+/* === RESPONSIVO === */
 @media (max-width: 600px) {
   .locations {
     padding: 16px;
@@ -200,16 +257,4 @@
   .locations__page-indicator {
     font-size: 0.9rem;
   }
-}
-
-/* Imagen dentro de la tarjeta */
-.location-card__image {
-  width: 100%;
-  height: 180px; /* ajusta según el tamaño que prefieras */
-  object-fit: cover; /* mantiene proporción sin deformar */
-  border-radius: 12px;
-  border: 2px solid #ffcc00;
-  margin-bottom: 10px;
-  background: #fffef0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }

@@ -113,11 +113,14 @@ main {
   }
   .nav__brand {
     margin: 0 auto;
+    max-height: 400px;
   }
   .nav__list {
     grid-auto-flow: column;
     grid-auto-columns: 1fr;
     gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
   }
   main {
     margin-left: 0;
@@ -126,8 +129,10 @@ main {
 
 img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  max-height: 400px;
   display: block;
   border-radius: 10px;
   transition: transform 0.25s ease;
+  object-fit: cover;
 }

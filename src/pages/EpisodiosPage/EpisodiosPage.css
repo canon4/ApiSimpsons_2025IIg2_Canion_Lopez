@@ -3,8 +3,8 @@
   --cyan: #00bcd4;
   --ink: #0f172a;
   --muted: #64748b;
-  --paper: #e3f2fd; /* azul muy claro */
-  --paper2: #f1f8ff; /* aún más claro */
+  --paper: #e3f2fd;
+  --paper2: #f1f8ff;
   --border: #b3e5fc;
   --radius: 16px;
   --shadow: 0 12px 28px rgba(10, 40, 95, 0.1);
@@ -12,50 +12,59 @@
 
 /* ===== Contenedor general ===== */
 .episodes {
-  padding: 20px;
-  max-width: 1100px;
+  padding: clamp(16px, 4vw, 32px);
+  max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* ===== Título ===== */
 .episodes__title {
-  margin: 6px 0 12px;
+  margin: 8px 0 16px;
   color: var(--blue);
-  font-size: clamp(1.6rem, 2.8vw, 2rem);
+  font-size: clamp(1.8rem, 3vw, 2.2rem);
   font-weight: 900;
-  letter-spacing: 0.2px;
+  text-align: center;
+  letter-spacing: 0.3px;
   text-shadow: 1px 1px 0 #b3e5fc;
 }
 
-/* ===== Filtro (temporada) ===== */
+/* ===== Filtro ===== */
 .episodes__filter {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  gap: 12px;
   flex-wrap: wrap;
-  margin: 4px 0 12px;
+  margin: 10px 0 20px;
   color: var(--ink);
   font-weight: 600;
+  text-align: center;
 }
+
 .episodes__filter label {
   color: var(--blue);
 }
+
 .episodes__filter select {
   appearance: none;
   background: var(--paper2);
   border: 2px solid var(--border);
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-radius: 12px;
   font-weight: 700;
   color: var(--blue);
   outline: none;
   box-shadow: var(--shadow);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease,
-    background 0.15s ease;
+  transition: all 0.15s ease;
 }
+
 .episodes__filter select:hover {
   background: #fff;
 }
+
 .episodes__filter select:focus {
   border-color: var(--cyan);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
@@ -64,21 +73,17 @@
 /* ===== Grid ===== */
 .episodes__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: clamp(14px, 2vw, 20px);
+  width: 100%;
+  justify-items: center;
 }
+
+/* ===== Animación de entrada ===== */
 .episodes__grid > * {
   animation: cardIn 0.35s ease-out both;
 }
-.episodes__grid > *:nth-child(2) {
-  animation-delay: 0.03s;
-}
-.episodes__grid > *:nth-child(3) {
-  animation-delay: 0.06s;
-}
-.episodes__grid > *:nth-child(4) {
-  animation-delay: 0.09s;
-}
+
 @keyframes cardIn {
   from {
     opacity: 0;
@@ -90,130 +95,29 @@
   }
 }
 
-/* ===== Tarjeta de episodio ===== */
+/* ===== Tarjeta ===== */
 .episode-card {
   background: var(--paper);
   border: 2px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
   box-shadow: var(--shadow);
-  transition: transform 0.18s ease, box-shadow 0.18s ease,
-    border-color 0.18s ease, background 0.18s ease;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 340px;
 }
+
 .episode-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   background: #eaf6ff;
   border-color: var(--cyan);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.14);
 }
 
-/* Título del episodio */
-.episode-card__title {
-  margin: 0 0 8px 0;
-  color: var(--blue);
-  font-weight: 900;
-  font-size: 1.05rem;
-}
-
-/* Chips de meta: temporada / episodio */
-.episode-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  margin: 0 8px 10px 0;
-  border-radius: 999px;
-  background: #ffffff;
-  color: var(--blue);
-  font-weight: 800;
-  border: 2px solid var(--border);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
-}
-.episode-chip[data-variant="season"]::before {
-  content: "T";
-  display: inline-grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--cyan);
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 900;
-}
-.episode-chip[data-variant="number"]::before {
-  content: "#";
-  display: inline-grid;
-  place-items: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #0288d1;
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 900;
-}
-
-/* Fecha de emisión */
-.episode-air {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: #fff;
-  color: var(--ink);
-  border: 2px dashed var(--border);
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-weight: 700;
-}
-.episode-air::before {
-  content: "";
-  width: 16px;
-  height: 16px;
-  border-radius: 3px;
-  border: 2px solid var(--cyan);
-  position: relative;
-  box-shadow: inset 0 -2px 0 var(--cyan);
-}
-
-/* Pie de tarjeta (opcional) */
-.episode-card__footer {
-  margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--muted);
-  font-weight: 600;
-}
-
-/* ===== Paginación (envoltorio) ===== */
-.episodes__pagination {
-  margin-top: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 600px) {
-  .episodes {
-    padding: 16px;
-  }
-  .episodes__grid {
-    gap: 12px;
-  }
-  .episode-card {
-    padding: 14px;
-  }
-  .episode-card__title {
-    font-size: 1rem;
-  }
-}
-
+/* ===== Imagen ===== */
 .episode-card__image {
   width: 100%;
-  height: 160px;
+  aspect-ratio: 16 / 9;
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 10px;
@@ -230,4 +134,108 @@
 
 .episode-card:hover .episode-card__image img {
   transform: scale(1.05);
+}
+
+/* ===== Texto ===== */
+.episode-card__title {
+  margin: 0 0 8px 0;
+  color: var(--blue);
+  font-weight: 900;
+  font-size: 1.05rem;
+  text-align: center;
+}
+
+.episode-card__footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* ===== Chips ===== */
+.episode-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  margin: 0 8px 10px 0;
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--blue);
+  font-weight: 800;
+  border: 2px solid var(--border);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.06);
+}
+
+.episode-chip[data-variant="season"]::before {
+  content: "T";
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--cyan);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+.episode-chip[data-variant="number"]::before {
+  content: "#";
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0288d1;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 900;
+}
+
+/* ===== Fecha ===== */
+.episode-air {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: var(--ink);
+  border: 2px dashed var(--border);
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-weight: 700;
+}
+
+/* ===== Paginación ===== */
+.episodes__pagination {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .episode-card {
+    max-width: 100%;
+  }
+
+  .episodes__filter {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .episode-card__title {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .episodes__title {
+    font-size: 1.4rem;
+  }
 }
